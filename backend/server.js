@@ -4,26 +4,30 @@ const express = require("express");
 const cors = require("cors");
 
 const connectDB = require("./config/Db");
-
 const enquiryRoutes = require("./routes/EnquiryRoutes");
 
 const app = express();
 
-connectDB();
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
 
-// Home route
-app.get("/", (req, res) => {
-  res.send("MA Group Backend Running");
-});
+// MongoDB
+connectDB();
 
 
-
-// Enquiry API
+// Routes
 app.use("/api/enquiries", enquiryRoutes);
+
+
+// Test route
+app.get("/", (req, res) => {
+  res.json({
+    message: "MA Group Backend is running"
+  });
+});
 
 
 const PORT = process.env.PORT || 5000;
