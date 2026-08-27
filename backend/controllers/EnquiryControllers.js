@@ -1,11 +1,14 @@
 const Enquiry = require("../models/Enquiry");
 const nodemailer = require("nodemailer");
 
+const emailUser = process.env.EMAIL_USER?.trim();
+const emailPass = process.env.EMAIL_PASS?.replace(/\s+/g, "");
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: emailUser,
+    pass: emailPass
   }
 });
 
@@ -21,9 +24,9 @@ const createEnquiry = async (req, res) => {
       message
     });
 
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: process.env.EMAIL_USER,
+    const mailResult = await transporter.sendMail({
+      from: emailUser,
+      to: emailUser,
       replyTo: email,
       subject: `New MA Group Enquiry - ${name}`,
 
@@ -38,6 +41,8 @@ const createEnquiry = async (req, res) => {
         <p>${message}</p>
       `
     });
+
+    console.log("Enquiry email sent:", mailResult.messageId);
 
     res.status(201).json({
       success: true,
