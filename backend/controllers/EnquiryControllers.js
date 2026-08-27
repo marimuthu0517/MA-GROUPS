@@ -1,20 +1,21 @@
 const Enquiry = require("../models/Enquiry");
 const nodemailer = require("nodemailer");
 
-const emailUser = process.env.EMAIL_USER?.trim();
-const emailPass = process.env.EMAIL_PASS?.replace(/\s+/g, "");
+const emailUser = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : "";
+const emailPass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g, "") : "";
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: emailUser,
-    pass: emailPass
-  }
+    pass: emailPass,
+  },
 });
 
 const createEnquiry = async (req, res) => {
   try {
-
     const { name, email, phone, message } = req.body;
 
     const enquiry = await Enquiry.create({
@@ -29,57 +30,41 @@ const createEnquiry = async (req, res) => {
       to: emailUser,
       replyTo: email,
       subject: `New MA Group Enquiry - ${name}`,
-
       html: `
         <h2>New Website Enquiry</h2>
-
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-
-        <h3>Project Details</h3>
+        <h3>Project Details:</h3>
         <p>${message}</p>
       `
     });
 
     console.log("Enquiry email sent:", mailResult.messageId);
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: "Enquiry submitted successfully",
       enquiry
     });
 
   } catch (error) {
+    console.error("Enquiry Error:", error.message || error);
 
-    console.log("Enquiry Error:", error);
-
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      message: "Failed to submit enquiry"
+      message: "Failed to submit enquiry",
+      error: error.message
     });
-
   }
 };
 
 const getEnquiries = async (req, res) => {
   try {
-
-    const enquiries = await Enquiry.find()
-      .sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      enquiries
-    });
-
+    const enquiries = await Enquiry.find().sort({ createdAt: -1 });
+    return res.status(200).json({ success: true, enquiries });
   } catch (error) {
-
-    res.status(500).json({
-      success: false,
-      message: error.message
-    });
-
+    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
