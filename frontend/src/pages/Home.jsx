@@ -1,22 +1,21 @@
-import { useEffect, useState } from "react";
 import Hero from "../components/Hero";
 
 function Home() {
 
-  const [services, setServices] = useState([]);
-
-  useEffect(() => {
-
-    fetch("http://localhost:6000/api/services")
-      .then((response) => response.json())
-      .then((data) => {
-        setServices(data);
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
-
-  }, []);
+  const services = [
+    {
+      title: "Website Development",
+      description: "Fast, responsive and modern websites built for businesses and individuals."
+    },
+    {
+      title: "Website Designing",
+      description: "Clean and attractive UI designs focused on user experience."
+    },
+    {
+      title: "Business Websites",
+      description: "Professional websites to help businesses build a strong online presence."
+    }
+  ];
 
   return (
 
