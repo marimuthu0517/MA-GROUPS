@@ -10,7 +10,11 @@ const app = express();
 
 
 // Middleware
-app.use(cors());
+const allowedOrigins = process.env.CORS_ORIGIN
+  ? process.env.CORS_ORIGIN.split(",").map((origin) => origin.trim()).filter(Boolean)
+  : true;
+
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 
@@ -23,6 +27,10 @@ app.get("/", (req, res) => {
   res.json({
     message: "MA Group Backend is running"
   });
+});
+
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
 });
 
 
