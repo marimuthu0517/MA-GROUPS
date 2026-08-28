@@ -8,31 +8,31 @@ const enquiryRoutes = require("./routes/EnquiryRoutes");
 
 const app = express();
 
-
-// Middleware
 const allowedOrigins = process.env.CORS_ORIGIN
-  ? process.env.CORS_ORIGIN.split(",").map((origin) => origin.trim()).filter(Boolean)
-  : true;
+  ? process.env.CORS_ORIGIN.split(",").map((origin) => origin.trim().replace(/\/$/, "")).filter(Boolean)
+  : "*";
 
-app.use(cors({ origin: allowedOrigins }));
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 
-
-// Routes
 app.use("/api/enquiries", enquiryRoutes);
 
-
-// Test route
 app.get("/", (req, res) => {
   res.json({
-    message: "MA Group Backend is running"
+    message: "MA Group Backend is running",
   });
 });
 
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
-
 
 const PORT = process.env.PORT || 5000;
 
