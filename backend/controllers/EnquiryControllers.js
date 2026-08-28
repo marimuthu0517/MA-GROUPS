@@ -1,18 +1,4 @@
 const Enquiry = require("../models/Enquiry");
-const nodemailer = require("nodemailer");
-
-const emailUser = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : "";
-const emailPass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g, "") : "";
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: emailUser,
-    pass: emailPass,
-  },
-});
 
 const createEnquiry = async (req, res) => {
   try {
@@ -22,53 +8,24 @@ const createEnquiry = async (req, res) => {
       name,
       email,
       phone,
-      message
+      message,
     });
 
-    const mailResult = await transporter.sendMail({
-      from: emailUser,
-      to: emailUser,
-      replyTo: email,
-      subject: `New MA Group Enquiry - ${name}`,
-      html: `
-        <h2>New Website Enquiry</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone || "Not provided"}</p>
-        <h3>Project Details:</h3>
-        <p>${message}</p>
-      `
-    });
-
-    console.log("Enquiry email sent:", mailResult.messageId);
-
-    return res.status(201).json({
+    res.status(201).json({
       success: true,
       message: "Enquiry submitted successfully",
-      enquiry
+      data: enquiry,
     });
-
   } catch (error) {
-    console.error("Enquiry Error:", error.message || error);
-
-    return res.status(500).json({
+    console.error("Error creating enquiry:", error);
+    res.status(500).json({
       success: false,
-      message: "Failed to submit enquiry",
-      error: error.message
+      message: "Server Error",
+      error: error.message,
     });
-  }
-};
-
-const getEnquiries = async (req, res) => {
-  try {
-    const enquiries = await Enquiry.find().sort({ createdAt: -1 });
-    return res.status(200).json({ success: true, enquiries });
-  } catch (error) {
-    return res.status(500).json({ success: false, message: error.message });
   }
 };
 
 module.exports = {
   createEnquiry,
-  getEnquiries
 };
