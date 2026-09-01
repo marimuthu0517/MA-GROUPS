@@ -150,7 +150,7 @@ function Contact() {
             <span>Email</span>
 
             <p>
-              info@magroup.com
+            magroups0517@gmail.com
             </p>
 
           </div>
