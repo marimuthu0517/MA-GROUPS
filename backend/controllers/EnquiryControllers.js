@@ -6,6 +6,17 @@ const emailUser = process.env.EMAIL_USER ? process.env.EMAIL_USER.trim() : "";
 const emailPass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g, "") : "";
 const smtpHost = "smtp.gmail.com";
 
+const getEmailErrorDetails = (error) => ({
+  message: error.message,
+  code: error.code,
+  errno: error.errno,
+  syscall: error.syscall,
+  address: error.address,
+  port: error.port,
+  command: error.command,
+  responseCode: error.responseCode,
+});
+
 const transporterPromise = dns.lookup(smtpHost, { family: 4, verbatim: false }).then(({ address }) =>
   nodemailer.createTransport({
     host: address,
@@ -31,9 +42,14 @@ const verifyEmailTransporter = async () => {
     throw new Error("EMAIL_USER and EMAIL_PASS must be configured");
   }
 
-  const transporter = await transporterPromise;
-  await transporter.verify();
-  console.log(`Email transporter verified for ${emailUser}`);
+  try {
+    const transporter = await transporterPromise;
+    await transporter.verify();
+    console.log(`Email transporter verified for ${emailUser}`);
+  } catch (error) {
+    console.error("Email transporter verification failed:", getEmailErrorDetails(error));
+    throw error;
+  }
 };
 
 const createEnquiry = async (req, res) => {
@@ -70,7 +86,7 @@ const createEnquiry = async (req, res) => {
       data: enquiry,
     });
   } catch (error) {
-    console.error("Error creating enquiry:", error.message || error);
+    console.error("Error creating enquiry email:", getEmailErrorDetails(error));
     return res.status(500).json({
       success: false,
       message: error.message || "Unable to send enquiry email",
