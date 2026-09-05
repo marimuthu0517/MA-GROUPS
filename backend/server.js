@@ -5,7 +5,6 @@ const cors = require("cors");
 
 const connectDB = require("./config/Db");
 const enquiryRoutes = require("./routes/EnquiryRoutes");
-const { verifyEmailTransporter } = require("./controllers/EnquiryControllers");
 
 const app = express();
 
@@ -39,12 +38,6 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
-    try {
-      await verifyEmailTransporter();
-    } catch (error) {
-      console.error("Email transporter verification failed:", error.message);
-    }
-
     await connectDB();
 
     app.listen(PORT, () => {

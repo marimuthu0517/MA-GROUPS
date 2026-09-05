@@ -76,6 +76,16 @@ function Contact() {
 
         console.log(data);
 
+        if (data.whatsappUrl) {
+          const whatsappWindow = window.open("", "_blank");
+
+          if (whatsappWindow) {
+            whatsappWindow.location.href = data.whatsappUrl;
+          } else {
+            window.location.href = data.whatsappUrl;
+          }
+        }
+
         setSubmitted(true);
 
         setFormData({
