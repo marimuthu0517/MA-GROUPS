@@ -1,10 +1,13 @@
+import ScrollAnimation from "../components/ScrollAnimation";
+
 function About() {
 
   return (
 
     <main className="page">
 
-      <section className="page-hero">
+      <ScrollAnimation>
+        <section className="page-hero">
 
         <span>
           01 — ABOUT US
@@ -22,10 +25,12 @@ function About() {
           establish their online presence.
         </p>
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
 
-      <section className="about-content">
+      <ScrollAnimation className="scroll-delay-1">
+        <section className="about-content">
 
         <div>
 
@@ -62,7 +67,8 @@ function About() {
 
         </div>
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
     </main>
 

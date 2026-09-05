@@ -1,4 +1,5 @@
 import ServiceCard from "../components/Servicecard";
+import ScrollAnimation from "../components/ScrollAnimation";
 
 function Services() {
 
@@ -53,7 +54,8 @@ function Services() {
 
     <main className="page">
 
-      <section className="page-hero">
+      <ScrollAnimation>
+        <section className="page-hero">
 
         <span>
           02 — SERVICES
@@ -70,10 +72,12 @@ function Services() {
           and website designing services.
         </p>
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
 
-      <section className="services-grid">
+      <ScrollAnimation className="scroll-delay-1">
+        <section className="services-grid">
 
         {services.map((service) => (
 
@@ -86,7 +90,8 @@ function Services() {
 
         ))}
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
     </main>
 

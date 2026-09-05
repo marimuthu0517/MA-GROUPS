@@ -10,11 +10,7 @@ function ScrollAnimation({ children, className = "" }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
 
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-
+        setVisible(entry.isIntersecting);
       },
       {
         threshold: 0.2
@@ -32,7 +28,7 @@ function ScrollAnimation({ children, className = "" }) {
   return (
     <div
       ref={ref}
-      className={`${className} ${visible ? "show" : ""}`}
+      className={`scroll-content ${className} ${visible ? "show" : ""}`}
     >
       {children}
     </div>

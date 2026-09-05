@@ -1,5 +1,6 @@
 import { useState } from "react";
 import API_BASE_URL from "../Api";
+import ScrollAnimation from "../components/ScrollAnimation";
 
 function Contact() {
 
@@ -111,7 +112,8 @@ function Contact() {
 
     <main className="page">
 
-      <section className="page-hero">
+      <ScrollAnimation>
+        <section className="page-hero">
 
         <span>
           04 — CONTACT
@@ -128,10 +130,12 @@ function Contact() {
           Tell us about your project.
         </p>
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
 
-      <section className="contact-section">
+      <ScrollAnimation className="scroll-delay-1">
+        <section className="contact-section">
 
         <div className="contact-info">
 
@@ -222,7 +226,7 @@ function Contact() {
 
           <textarea
             name="message"
-            placeholder="Tell us about your project..."
+            placeholder="Tell us about your project....!!!"
             value={formData.message}
             onChange={handleChange}
             required
@@ -249,7 +253,8 @@ function Contact() {
 
         </form>
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
     </main>
 

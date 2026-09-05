@@ -1,4 +1,5 @@
 import Hero from "../components/Hero";
+import ScrollAnimation from "../components/ScrollAnimation";
 
 function Home() {
 
@@ -21,9 +22,12 @@ function Home() {
 
     <>
 
-      <Hero />
+      <ScrollAnimation>
+        <Hero />
+      </ScrollAnimation>
 
-      <section className="home-about">
+      <ScrollAnimation className="scroll-delay-1">
+        <section className="home-about">
 
         <div>
 
@@ -54,9 +58,11 @@ function Home() {
 
         </div>
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
-      <section className="home-services">
+      <ScrollAnimation className="scroll-delay-2">
+        <section className="home-services">
 
         <span>
           WHAT WE DO
@@ -86,7 +92,8 @@ function Home() {
 
         </div>
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
     </>
 

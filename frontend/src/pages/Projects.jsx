@@ -1,36 +1,30 @@
 import ProjectCard from "../components/projectcard";
+import ScrollAnimation from "../components/ScrollAnimation";
+
+import businessWebsite from "../assets/business-website.png";
+import portfolioWebsite from "../assets/portfolio-website.png";
 
 function Projects() {
 
   const projects = [
 
     {
-      title: "E-Commerce Website",
-      type: "Demo Project",
-      description:
-        "A modern online shopping website concept designed to demonstrate our development capabilities."
-    },
-
-    {
       title: "Business Website",
       type: "Demo Project",
       description:
-        "A professional business website concept for startups and growing companies."
-    },
-
-    {
-      title: "Restaurant Website",
-      type: "Concept Project",
-      description:
-        "A responsive restaurant website concept with menu, gallery and contact sections."
+        "A professional business website concept for startups and growing companies.",
+      url: "https://smartwayapplianceservices.com",
+      image: businessWebsite
     },
 
     {
       title: "Portfolio Website",
       type: "Demo Project",
       description:
-        "A clean portfolio website concept for developers and professionals."
-    }
+        "A clean portfolio website concept for developers and professionals.",
+      url: "https://magroups.vercel.app/",
+      image: portfolioWebsite
+    },
 
   ];
 
@@ -39,7 +33,8 @@ function Projects() {
 
     <main className="page">
 
-      <section className="page-hero">
+      <ScrollAnimation>
+        <section className="page-hero">
 
         <span>
           03 — PROJECTS
@@ -56,10 +51,12 @@ function Projects() {
           created to showcase what MA Group can build.
         </p>
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
 
-      <section className="projects-grid">
+      <ScrollAnimation className="scroll-delay-1">
+        <section className="projects-grid">
 
         {projects.map((project, index) => (
 
@@ -68,11 +65,14 @@ function Projects() {
             title={project.title}
             type={project.type}
             description={project.description}
+            url={project.url}
+            image={project.image}
           />
 
         ))}
 
-      </section>
+        </section>
+      </ScrollAnimation>
 
     </main>
 

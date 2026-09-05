@@ -1,24 +1,21 @@
 function ProjectCard({
   title,
   type,
-  description
+  description,
+  url,
+  image
 }) {
-
-  return (
-
-    <div className="project-card">
-
+  const cardContent = (
+    <>
       <div className="project-preview">
+         <img
+          src={image}
+          alt={`${title} preview`}
+          className="project-image"
+        />
 
-        <div className="preview-logo">
-          MA
-        </div>
 
         <div className="preview-lines">
-
-          <span></span>
-          <span></span>
-          <span></span>
 
         </div>
 
@@ -40,8 +37,24 @@ function ProjectCard({
         </p>
 
       </div>
+    </>
+  );
 
-    </div>
+  return (
+    url ? (
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="project-card"
+      >
+        {cardContent}
+      </a>
+    ) : (
+      <div className="project-card">
+        {cardContent}
+      </div>
+    )
 
   );
 }
