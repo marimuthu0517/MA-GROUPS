@@ -6,8 +6,9 @@ const emailPass = process.env.EMAIL_PASS ? process.env.EMAIL_PASS.replace(/\s+/g
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  port: 587,
+  secure: false,
+  requireTLS: true,
   family: 4,
   connectionTimeout: 30000,
   greetingTimeout: 30000,
@@ -17,8 +18,8 @@ const transporter = nodemailer.createTransport({
     servername: "smtp.gmail.com",
   },
   auth: {
-    user: emailUser,
-    pass: emailPass
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
