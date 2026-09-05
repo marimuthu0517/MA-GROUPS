@@ -14,6 +14,15 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+const verifyEmailTransporter = async () => {
+  if (!emailUser || !emailPass) {
+    throw new Error("EMAIL_USER and EMAIL_PASS must be configured");
+  }
+
+  await transporter.verify();
+  console.log(`Email transporter verified for ${emailUser}`);
+};
+
 const createEnquiry = async (req, res) => {
   try {
     const { name, email, phone, message } = req.body;
@@ -27,7 +36,7 @@ const createEnquiry = async (req, res) => {
 
     const mailResult = await transporter.sendMail({
       from: emailUser,
-      to: "magroups0517@gmail.com",
+      to: emailUser,
       replyTo: email,
       subject: `New MA Group Enquiry - ${name}`,
       text: [
@@ -50,11 +59,12 @@ const createEnquiry = async (req, res) => {
     console.error("Error creating enquiry:", error.message || error);
     return res.status(500).json({
       success: false,
-      message: "Unable to send enquiry email",
+      message: error.message || "Unable to send enquiry email",
     });
   }
 };
 
 module.exports = {
   createEnquiry,
+  verifyEmailTransporter,
 };
