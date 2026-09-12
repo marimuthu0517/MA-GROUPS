@@ -1,10 +1,35 @@
 import { Link } from "react-router-dom";
+import FloatingPaths from "./floatingpath";
+
+// Splits a line of text into individually animated letter spans.
+function AnimatedLine({ text, startIndex = 0, className = "" }) {
+  return (
+    <span className={className}>
+      {text.split("").map((char, i) => (
+        <span
+          key={startIndex + i}
+          className="hero-letter"
+          style={{ "--delay": `${(startIndex + i) * 0.03}s` }}
+        >
+          {char === " " ? "\u00A0" : char}
+        </span>
+      ))}
+    </span>
+  );
+}
 
 function Hero() {
 
+  const line1 = "We Build";
+  const line2 = "Digital Experiences.";
 
   return (
     <section className="hero">
+
+      <div className="hero-bg">
+        <FloatingPaths position={1} />
+        <FloatingPaths position={-1} />
+      </div>
 
       <div className="hero-content">
 
@@ -13,9 +38,9 @@ function Hero() {
         </span>
 
         <h1>
-          We Build
+          <AnimatedLine text={line1} />
           <br />
-          <span>Digital Experiences.</span>
+          <AnimatedLine text={line2} startIndex={line1.length} className="hero-line-muted" />
         </h1>
 
         <p>
@@ -28,7 +53,8 @@ function Hero() {
         <div className="hero-buttons">
 
           <Link to="/services" className="primary-btn">
-            Explore Services →
+            <span className="btn-label">Explore Services</span>
+            <span className="btn-arrow">→</span>
           </Link>
 
           <Link to="/contact" className="secondary-btn">

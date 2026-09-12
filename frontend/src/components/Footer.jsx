@@ -52,7 +52,7 @@ function Footer() {
           <h3>Contact</h3>
 
           <p>
-            info@magroup.com
+            magroups0517@gmail.com
           </p>
 
           <p>
