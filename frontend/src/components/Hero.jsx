@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import FloatingPaths from "./floatingpath";
+import FloatingPaths from "./Floatingpath";
 
 // Splits a line of text into individually animated letter spans.
 function AnimatedLine({ text, startIndex = 0, className = "" }) {
